@@ -83,7 +83,7 @@ const Navbar = () => {
                     </a>
                   </Link>
 
-                  {user !== null && user.vaitro === "quanly" && (
+                  {user !== null && user.vaitro === "Quan Ly" && (
                     <Link href={"/admin/foods"}>
                       <a>
                         <div
@@ -146,7 +146,7 @@ const Navbar = () => {
                   Explore
                 </a>
               </Link>
-              {user !== null && user.vaitro === "quanly" && (
+              {user !== null && user.vaitro === "Quan Ly" && (
                 <>
                   <Link href={"/admin/foods"}>
                     <a className="cursor-pointer hover:text-green-500 transition duration-300 ease-in">

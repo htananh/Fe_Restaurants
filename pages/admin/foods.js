@@ -102,7 +102,7 @@
 //                   FOOD ITEMS
 //                 </h1>
 //                 {data.map((item) => {
-//                   return <AdminFoodList key={item.ID_Mon_an} item={item} />;
+//                   return <AdminFoodList key={item.idMonAn} item={item} />;
 //                 })}
 //               </div>
 //             </div>
@@ -116,7 +116,7 @@
 //                   FOOD ITEMS
 //                 </h1>
 //                 {data.map((item) => {
-//                   return <AdminFoodList key={item.ID_Mon_an} item={item} />;
+//                   return <AdminFoodList key={item.idMonAn} item={item} />;
 //                 })}
 //               </div>
 //             </div>
@@ -213,25 +213,35 @@ import axios from "axios";
 import Loading from "../../components/Loading";
 import AdminFoodList from "../../components/admin/AdminFoodList";
 
-const foods = ({ result }) => {
+const Foods = () => {
   const [openModal, setOpenModal] = useState(false);
   const [tenMon, setName] = useState("");
   const [loai, setCategory] = useState("");
   const [donGia, setCost] = useState("");
   const [description, setDescription] = useState("");
-  const [selectedImage, setSelectedImage] = useState(null); // Update type to `null`
+  const [selectedImage, setSelectedImage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [foods, setFoods] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
   const {
     user: { user },
-    food: { data },
   } = useSelector((state) => state);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchFoods());
-  }, []);
+    dispatch(fetchFoods())
+      .then((response) => {
+        setFoods(response.payload);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [dispatch]);
+
+  const handleDeleteFood = (idMonAn) => {
+    setFoods((prevFoods) => prevFoods.filter((food) => food.id_mon_an !== idMonAn));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -239,37 +249,42 @@ const foods = ({ result }) => {
     const token = window.localStorage.getItem("token");
     const formData = new FormData();
     formData.append("file", selectedImage);
-    formData.append("tenMon", tenMon);
-    formData.append("loai", loai);
-    formData.append("donGia", donGia);
-    formData.append("description", description);
-    
-    await axios
-      .post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/foods/new`,
-        formData,
-        { headers: { Authorization: token, 'Content-Type': 'multipart/form-data' } }
-      )
-      .then((data) => {
-        setLoading(false);
-        setName("");
-        setCategory("");
-        setCost("");
-        setDescription("");
-        setSelectedImage(null);
-        setOpenModal(false);
-        enqueueSnackbar(data.data.message, {
-          variant: "success",
-          autoHideDuration: 3000,
-        });
-      })
-      .catch((err) => {
-        setLoading(false);
-        enqueueSnackbar(err.response.data.message, {
-          variant: "error",
-          autoHideDuration: 3000,
-        });
+    formData.append("upload_preset", process.env.NEXT_PUBLIC_UPLOAD_PRESET);
+    formData.append("cloud_name", process.env.NEXT_PUBLIC_CLOUD_NAME);
+
+    try {
+      const res = await fetch(process.env.NEXT_PUBLIC_CLOUDINARY_API, {
+        method: "POST",
+        body: formData,
       });
+      const res2 = await res.json();
+
+      const newFood = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/foods/new`,
+        {
+          tenMon,
+          loai,
+          donGia,
+          description,
+          image: res2.secure_url,
+        },
+        { headers: { Authorization: token } }
+      );
+
+      setLoading(false);
+      setName("");
+      setCategory("");
+      setCost("");
+      setDescription("");
+      setSelectedImage(null);
+      setOpenModal(false);
+      enqueueSnackbar("Food item added successfully!", { variant: "success", autoHideDuration: 3000 });
+
+      setFoods((prevFoods) => [...prevFoods, newFood.data]); // Update the state with the new food item
+    } catch (err) {
+      setLoading(false);
+      enqueueSnackbar(err.response?.data?.message || "Failed to add food item", { variant: "error", autoHideDuration: 3000 });
+    }
   };
 
   useEffect(() => {
@@ -277,22 +292,23 @@ const foods = ({ result }) => {
       Router.push("/");
     }
   }, [user]);
+
   return (
     <>
       {loading ? (
         <Loading />
       ) : (
         <>
-          <div className="hidden lg:flex justify-center max-w-6xl mx-auto min-h-[83vh] p-3 ">
+          <div className="hidden lg:flex justify-center max-w-6xl mx-auto min-h-[83vh] p-3">
             <AdminSidebar />
             <div className="flex-grow min-w-fit ml-5">
               <div className="flex flex-col items-center">
                 <h1 className="text-lg font-semibold text-green-400 mb-5">
                   FOOD ITEMS
                 </h1>
-                {data.map((item) => {
-                  return <AdminFoodList key={item.ID_Mon_an} item={item} />;
-                })}
+                {foods.map((item) => (
+                  <AdminFoodList key={item.id_mon_an} item={item} onDelete={handleDeleteFood} />
+                ))}
               </div>
             </div>
           </div>
@@ -301,12 +317,10 @@ const foods = ({ result }) => {
             <div className="flex flex-col">
               <AdminDrawer />
               <div className="flex flex-col justify-center items-center mt-3">
-                <h1 className="text-lg font-semibold text-green-400">
-                  FOOD ITEMS
-                </h1>
-                {data.map((item) => {
-                  return <AdminFoodList key={item.ID_Mon_an} item={item} />;
-                })}
+                <h1 className="text-lg font-semibold text-green-400">FOOD ITEMS</h1>
+                {foods.map((item) => (
+                  <AdminFoodList key={item.id_mon_an} item={item} onDelete={handleDeleteFood} />
+                ))}
               </div>
             </div>
           </div>
@@ -350,15 +364,16 @@ const foods = ({ result }) => {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     className="p-3 border-2 border-green-400 mt-3 bg-transparent rounded-lg outline-none font-semibold placeholder:text-sm w-full"
-                    type="text"
                     placeholder="Description"
                   />
                   <div className="flex items-center justify-between mt-3">
                     <label htmlFor="image">
                       <Image className="text-green-500 text-3xl cursor-pointer" />{" "}
-                      <h1 className="text-white text-sm font-semibold mt-2 mb-3">
-                        {selectedImage?.name}
-                      </h1>
+                      {selectedImage && (
+                        <h1 className="text-white text-sm font-semibold mt-2 mb-3">
+                          {selectedImage.name}
+                        </h1>
+                      )}
                     </label>
                     <input
                       type="file"
@@ -369,7 +384,7 @@ const foods = ({ result }) => {
                   </div>
                   <input
                     type="submit"
-                    value={"Add New Food"}
+                    value="Add New Food"
                     className="bg-white text-green-500 font-bold p-3 outline-none rounded-lg w-full cursor-pointer mt-3 hover:bg-green-400 hover:text-white transition duration-300 ease-in"
                   />
                 </form>
@@ -388,5 +403,4 @@ const foods = ({ result }) => {
   );
 };
 
-export default foods;
-
+export default Foods;

@@ -19,7 +19,7 @@ const FoodItem = ({ item }) => {
     });
   };
   const handleRemoveFromCart = () => {
-    dispatch(remove(item.id));
+    dispatch(remove(item.idMonAn));
     enqueueSnackbar(`Removed ${item.tenMon} from the cart`, {
       variant: "warning",
       autoHideDuration: 3000,
@@ -44,7 +44,7 @@ const FoodItem = ({ item }) => {
           </h1>
         </div>
         <div className="flex justify-between items-center p-3">
-          {cart.some((p) => p.id === item.id) ? (
+          {cart.some((p) => p.idMonAn === item.idMonAn) ? (
             <button
               className="text-red-500 font-semibold text-sm border-2 border-red-500 p-2 rounded-lg  group-hover:bg-red-500 group-hover:text-white transition-transform duration-300 ease-in-out group-hover:border-red-500"
               onClick={handleRemoveFromCart}
@@ -64,7 +64,7 @@ const FoodItem = ({ item }) => {
             className="text-green-100 font-semibold"
             onClick={() => setOpenModal(true)}
           >
-            Rs.{item.donGia}
+            {item.donGia} vnđ
           </p>
         </div>
       </div>
@@ -84,7 +84,7 @@ const FoodItem = ({ item }) => {
                   Order now
                 </button>
                 <p className="text-lg text-green-100 font-bold">
-                  Rs.{item.donGia}
+                  {item.donGia} vnđ
                 </p>
               </div>
             </div>

@@ -22,7 +22,7 @@ const chinese = () => {
         <FoodItemContainer>
           {chineseItems.map((item) => {
             console.log(item);
-            return <FoodItem key={item.ID_Mon_an} item={item} />;
+            return <FoodItem key={item.idMonAn} item={item} />;
           })}
         </FoodItemContainer>
       </div>

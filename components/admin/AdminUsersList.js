@@ -7,9 +7,9 @@ const AdminUsersList = ({ item }) => {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleDelete = async () => {
-    const token = JSON.parse(window.localStorage.getItem("token"));
+    const token = window.localStorage.getItem("token");
     await axios
-      .delete(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${item._id}`, {
+      .delete(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${item.id_nd}`, {
         headers: { Authorization: token },
       })
       .then((data) => {

@@ -14,11 +14,12 @@ const users = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      await axios
-        .get(`${process.env.NEXT_PUBLIC_BASE_URL}/users`)
-        .then((data) => {
-          setAllUsers(data.data.users);
-        });
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/users`);
+        setAllUsers(response.data);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
     };
     fetchUsers();
   }, [allUsers]);
@@ -37,7 +38,7 @@ const users = () => {
           <div className="flex flex-col items-center">
             <h1 className="text-lg font-semibold text-green-400 mb-4">USERS</h1>
             {allUsers.map((item) => {
-              return <AdminUsersList key={item._id} item={item} />;
+              return <AdminUsersList key={item.id_nd} item={item} />;
             })}
           </div>
         </div>
@@ -48,7 +49,7 @@ const users = () => {
           <div className="flex flex-col justify-center items-center mt-3">
             <h1 className="text-lg font-semibold text-green-400 mb-3">USERS</h1>
             {allUsers.map((item) => {
-              return <AdminUsersList key={item._id} item={item} />;
+              return <AdminUsersList key={item.id_nd} item={item} />;
             })}
           </div>
         </div>

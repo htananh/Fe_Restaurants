@@ -10,7 +10,7 @@ const dosa = () => {
     food: { data },
   } = useSelector((state) => state);
   const dispatch = useDispatch();
-  const dosaItems = data.filter((item) => item.category === "dosa");
+  const dosaItems = data.filter((item) => item.loai === "Salad");
 
   useEffect(() => {
     dispatch(fetchFoods());
@@ -21,7 +21,7 @@ const dosa = () => {
         <FoodLinks />
         <FoodItemContainer>
           {dosaItems.map((item) => {
-            return <FoodItem key={item._id} item={item} />;
+            return <FoodItem key={item.idMonAn} item={item} />;
           })}
         </FoodItemContainer>
       </div>
