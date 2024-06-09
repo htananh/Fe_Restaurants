@@ -95,7 +95,7 @@ const CartItem = ({ item }) => {
           <img src={item.image} className="h-28 rounded-lg" alt="" /> {/* Thêm hình ảnh nếu có */}
           <div className="ml-10 self-start space-y-5">
             <h1 className="text-xl text-green-500 font-bold">{item.tenMon}</h1>
-            <p className="font-semibold">Rs.{item.donGia}</p>
+            <p className="font-semibold">{(item.donGia).toLocaleString('vi', {style : 'currency', currency : 'VND'})}</p>
             {/* Hiển thị các trường mới của hóa đơn */}
             <div className="flex items-center mt-2">
                <button
@@ -113,7 +113,7 @@ const CartItem = ({ item }) => {
               </button>
             </div>
             {/* <p>Quantity: {item.quantity}</p> */}
-            <p>Total: {item.quantity * item.donGia} vnđ</p>
+            <p>Total: {(item.quantity * item.donGia).toLocaleString('vi', {style : 'currency', currency : 'VND'})}  </p>
           </div>
         </div>
         <div className="bg-gray-700 hover:bg-gray-900 transition-transform duration-300 cursor-pointer rounded-full p-3 mr-3">

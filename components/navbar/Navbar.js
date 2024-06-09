@@ -44,7 +44,7 @@ const Navbar = () => {
           <Link href={"/"}>
             <a>
               <h1 className="logo text-4xl md:text-5xl font-bold tracking-wider bg-gradient-to-br from-lime-300 to-green-400 cursor-pointer bg-clip-text text-transparent ">
-                Swirly
+                日本
               </h1>
             </a>
           </Link>

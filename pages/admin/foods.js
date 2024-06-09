@@ -240,7 +240,7 @@ const Foods = () => {
   }, [dispatch]);
 
   const handleDeleteFood = (idMonAn) => {
-    setFoods((prevFoods) => prevFoods.filter((food) => food.id_mon_an !== idMonAn));
+    setFoods((prevFoods) => prevFoods.filter((food) => food.idMonAn !== idMonAn));
   };
 
   const handleSubmit = async (e) => {
@@ -307,7 +307,7 @@ const Foods = () => {
                   FOOD ITEMS
                 </h1>
                 {foods.map((item) => (
-                  <AdminFoodList key={item.id_mon_an} item={item} onDelete={handleDeleteFood} />
+                  <AdminFoodList key={item.idMonAn} item={item} onDelete={handleDeleteFood} />
                 ))}
               </div>
             </div>
@@ -319,7 +319,7 @@ const Foods = () => {
               <div className="flex flex-col justify-center items-center mt-3">
                 <h1 className="text-lg font-semibold text-green-400">FOOD ITEMS</h1>
                 {foods.map((item) => (
-                  <AdminFoodList key={item.id_mon_an} item={item} onDelete={handleDeleteFood} />
+                  <AdminFoodList key={item.idMonAn} item={item} onDelete={handleDeleteFood} />
                 ))}
               </div>
             </div>

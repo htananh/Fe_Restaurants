@@ -12,6 +12,7 @@ const AdminFoodList = ({ item }) => {
   const [description, setDescription] = useState("");
   const [selectedImage, setSelectedImage] = useState("");
   const { enqueueSnackbar } = useSnackbar();
+
   const handleDelete = async () => {
     const token = window.localStorage.getItem("token");
     if (!item.idMonAn) {
@@ -27,7 +28,6 @@ const AdminFoodList = ({ item }) => {
           variant: "success",
           autoHideDuration: 3000,
         });
-     
       })
       .catch((err) => {
         enqueueSnackbar(err.response.data.message, {
@@ -72,6 +72,7 @@ const AdminFoodList = ({ item }) => {
           variant: "success",
           autoHideDuration: 3000,
         });
+        setOpenModal(false); 
       })
       .catch((err) => {
         enqueueSnackbar(err.response.data.message, {
@@ -81,13 +82,22 @@ const AdminFoodList = ({ item }) => {
       });
   };
 
+  const handleEdit = () => {
+    setName(item.tenMon);
+    setCategory(item.loai);
+    setCost(item.donGia);
+    setDescription(item.description);
+    setSelectedImage(item.image);
+    setOpenModal(true);
+  };
+
   return (
     <>
       <div className="flex justify-between items-center p-3 bg-gray-600 w-[18rem] md:w-[20rem] lg:w-[25rem]  rounded-xl mb-3">
         <h1 className="text-green-100 font-semibold">{item.tenMon}</h1>
         <div>
           <Edit
-            onClick={() => setOpenModal(true)}
+            onClick={handleEdit}
             className="text-green-400 cursor-pointer"
           />
           <Delete
@@ -133,7 +143,7 @@ const AdminFoodList = ({ item }) => {
                     <label htmlFor="image">
                       <Image className="text-green-500 text-3xl cursor-pointer" />{" "}
                       <h1 className="text-white text-sm font-semibold mt-2 mb-3">
-                        {selectedImage.name}
+                        {selectedImage ? selectedImage.name : "Choose an image"}
                       </h1>
                     </label>
                     <input

@@ -147,7 +147,7 @@ const Order = () => {
       // Gửi yêu cầu đặt hàng đến backend
       const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/hoadon/new`, {
         idKh: user.idkh, // Sử dụng id của người dùng để thực hiện đặt hàng
-        idBan: 2, // Sử dụng id của bàn của người dùng để thực hiện đặt hàng
+        idBan: 9, // Sử dụng id của bàn của người dùng để thực hiện đặt hàng
         ngayHd: new Date().toISOString().split('T')[0], // Sử dụng ngày hiện tại để thực hiện đặt hàng
         tienMonAn: cart.reduce((total, item) => total + parseFloat(item.donGia) * item.quantity, 0), // Tính tổng tiền món ăn trong giỏ hàng
         codeVoucher: "", // Nếu có sử dụng mã voucher, bạn có thể thêm vào đây

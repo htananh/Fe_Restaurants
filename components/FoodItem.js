@@ -27,7 +27,7 @@ const FoodItem = ({ item }) => {
   };
   return (
     <>
-      <div className="mt-5 single flex flex-col mx-auto w-[275px] sm:w-60 rounded-xl hover:scale-110 transition-transform duration-500 ease-in group bg-gray-800 cursor-pointer">
+      <div className="mt-5  single flex flex-col mx-auto w-[275px] sm:w-72 rounded-xl hover:scale-110 transition-transform duration-500 ease-in group bg-gray-800 cursor-pointer">
         <div onClick={() => setOpenModal(true)}>
           <img
             src={item.image}
@@ -64,7 +64,8 @@ const FoodItem = ({ item }) => {
             className="text-green-100 font-semibold"
             onClick={() => setOpenModal(true)}
           >
-            {item.donGia} vnđ
+            {item.donGia.toLocaleString('vi', {style : 'currency', currency : 'VND'})}
+            {/* {item.donGia} vnđ */}
           </p>
         </div>
       </div>
@@ -84,7 +85,8 @@ const FoodItem = ({ item }) => {
                   Order now
                 </button>
                 <p className="text-lg text-green-100 font-bold">
-                  {item.donGia} vnđ
+                {item.donGia.toLocaleString('vi', {style : 'currency', currency : 'VND'})}
+                  {/* {item.donGia} vnđ */}
                 </p>
               </div>
             </div>

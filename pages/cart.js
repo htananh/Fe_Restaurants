@@ -118,7 +118,7 @@ const Cart = () => {
                   <span className="text-green-100 font-semibold">
                     Total Amount
                   </span>{" "}
-                  : Rs.{totalAmount}
+                  :  {totalAmount.toLocaleString('vi', {style : 'currency', currency : 'VND'})}
                 </p>
                 {/* Nút để đặt hàng */}
                 <Link href={"/order"}>
