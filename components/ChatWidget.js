@@ -4,7 +4,10 @@ const ChatWidget = () => {
   useEffect(() => {
     // Tạo và chèn script vào DOM
     const script = document.createElement('script');
-    script.src = 'https://sf-cdn.coze.com/obj/unpkg-va/flow-platform/chat-app-sdk/0.1.0-beta.2/libs/oversea/index.js';
+    
+
+  
+    script.src = 'https://sf-cdn.coze.com/obj/unpkg-va/flow-platform/chat-app-sdk/0.1.0-beta.3/libs/oversea/index.js';
     script.async = true;
     script.onload = () => {
       // Khởi tạo CozeWebSDK sau khi script được tải
@@ -13,7 +16,7 @@ const ChatWidget = () => {
           bot_id: '7374076619226710032',
         },
         componentProps: {
-          title: 'Coze',
+          title: 'Restaurant Bot',
         },
       });
     };

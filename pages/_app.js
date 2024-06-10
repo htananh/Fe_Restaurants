@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>Swirly | Order food online</title>
+        <title>Royal TheDreamers | Order food online</title>
       </Head>
       <StyledEngineProvider injectFirst>
         <Provider store={store}>

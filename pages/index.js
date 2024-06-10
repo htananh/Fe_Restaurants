@@ -12,7 +12,7 @@ const Home = () => {
           <p className="text-green-100 opacity-70 mt-3 text-xl font-semibold mb-2">
           Đặt món ăn ngon và tốt cho sức khỏe trực tuyến mọi lúc, mọi nơi từ{" "}
             <span className="text-green-400 font-bold text-3xl ml-1 logo">
-              レストラン
+              Royal TheDreamers
             </span>
           </p>
           <Link href={"/foods"}>
